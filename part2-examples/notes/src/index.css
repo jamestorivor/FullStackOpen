@@ -1,0 +1,15 @@
+.note {
+  color: rgb(94, 94, 94);
+  padding-top: 1rem;
+  font-size: 1rem;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
