@@ -22,6 +22,9 @@ function App() {
   const handleDisplayCountries = (countries) => {
     if (length(countries) > 10) {
       setVisibleCountries(null);
+    } else if (length(countries) > 1) {
+      setVisibleCountries(countries);
+    } else if (length(countries == 1)) {
     }
   };
 
