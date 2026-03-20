@@ -7,6 +7,7 @@ morgan.token("body", function getBody(req) {
   return JSON.stringify(req.body);
 });
 app.use(morgan(":method :url :status 61 - :response-time ms :body"));
+app.use(express.static("dist"));
 
 let persons = [
   {
