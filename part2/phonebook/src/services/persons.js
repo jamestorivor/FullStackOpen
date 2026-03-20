@@ -1,8 +1,12 @@
 import axios from "axios";
-const baseUrl = "http://localhost:3001/persons";
+const baseUrl = "api/persons";
 
 const getAll = () => {
   return axios.get(baseUrl).then((response) => response.data);
+};
+
+const getbyId = (id) => {
+  return axios.get(`${baseUrl}/${id}`).then((response) => response.data);
 };
 
 const update = (id, newObject) => {
@@ -21,4 +25,4 @@ const remove = (id) => {
     .then((response) => console.log("Deleted successfully~"));
 };
 
-export default { create, update, getAll, remove };
+export default { create, update, getAll, remove, getbyId };
