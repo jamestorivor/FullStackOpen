@@ -59,8 +59,7 @@ app.delete("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.post("/api/persons", (request, response) => {
-  // const id = String(Math.floor(1000000 * Math.random()));
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
   if (!body.name || !body.number) {
     return response.status(400).json({
@@ -71,8 +70,13 @@ app.post("/api/persons", (request, response) => {
     name: body.name,
     number: body.number,
   });
-  person.save().then((savedPerson) => response.json(savedPerson));
+  person
+    .save()
+    .then((savedPerson) => response.json(savedPerson))
+    .catch((error) => next(error));
 });
+
+const opts = { runValidators: true };
 
 app.put("/api/persons/:id", (request, response, next) => {
   const { name, number } = request.body;
@@ -108,6 +112,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name == "Cast Error") {
     response.status(404).send("malformatted id");
+  } else if (error.name === "ValidationError") {
+    response.status(404).json({ error: error.message });
   }
 
   next(error);

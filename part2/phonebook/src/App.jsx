@@ -37,14 +37,17 @@ const App = () => {
         updateNumber(personId, personToAdd);
       }
     } else {
-      personServices.create(personToAdd).then((returnedPerson) => {
-        const newPersons = persons.concat(returnedPerson);
-        setPersons(newPersons);
-        updateVisiblePeople(newFilter, newPersons);
-        displayNotification(`${personToAdd.name} added to phonebook`);
-        setNewName("");
-        setNewNumber("");
-      });
+      personServices
+        .create(personToAdd)
+        .then((returnedPerson) => {
+          const newPersons = persons.concat(returnedPerson);
+          setPersons(newPersons);
+          updateVisiblePeople(newFilter, newPersons);
+          displayNotification(`${personToAdd.name} added to phonebook`);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => displayErrorMessage(`${error.response.data.error}`));
     }
   };
 

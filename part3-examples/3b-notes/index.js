@@ -43,12 +43,6 @@ app.get("/api/notes/:id", (request, response, next) => {
     });
 });
 
-// app.delete("/api/notes/:id", (request, response) => {
-//   const id = request.params.id;
-//   notes = notes.filter((note) => note.id !== id);
-//   response.status(204).end;
-// });
-
 app.delete("/api/notes/:id", (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
     .then((result) => response.status(204).end())
@@ -74,13 +68,7 @@ app.put("/api/notes/:id", (request, response, next) => {
   });
 });
 
-// const generateId = () => {
-//   const maxId =
-//     notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0;
-//   return String(maxId + 1);
-// };
-
-app.post("/api/notes", (request, response) => {
+app.post("/api/notes", (request, response, next) => {
   const body = request.body;
 
   if (!body.content) {
@@ -94,9 +82,12 @@ app.post("/api/notes", (request, response) => {
     important: body.important || false,
   });
 
-  note.save().then((savedNote) => {
-    response.json(savedNote);
-  });
+  note
+    .save()
+    .then((savedNote) => {
+      response.json(savedNote);
+    })
+    .catch((error) => next(error));
 });
 
 const unknownEndpoint = (request, response) => {
@@ -111,8 +102,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "Cast Error") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
-
   next(error);
 };
 
