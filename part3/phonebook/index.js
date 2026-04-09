@@ -83,7 +83,7 @@ app.put("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
   Person.findById(id).then((person) => {
     if (!person) {
-      response.status(400).end();
+      return response.status(400).end();
     }
 
     console.log(name, number);

@@ -88,10 +88,8 @@ const App = () => {
         setNewName("");
         setNewNumber("");
       })
-      .catch((response) => {
-        displayErrorMessage(
-          `${samePerson.name}'s information has already been deleted from the server`,
-        );
+      .catch((error) => {
+        displayErrorMessage(`${error}`);
         const remainingPersons = persons.filter((person) => person.id !== id);
         setPersons(remainingPersons);
         updateVisiblePeople(newFilter, remainingPersons);
