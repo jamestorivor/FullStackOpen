@@ -89,7 +89,7 @@ const App = () => {
         setNewNumber("");
       })
       .catch((error) => {
-        displayErrorMessage(`${error}`);
+        displayErrorMessage(`${error.response.data.error}`);
         const remainingPersons = persons.filter((person) => person.id !== id);
         setPersons(remainingPersons);
         updateVisiblePeople(newFilter, remainingPersons);
